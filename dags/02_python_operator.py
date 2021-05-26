@@ -32,7 +32,7 @@ def _get_pictures():
 
 
 with DAG(
-    dag_id="02_python_operator",
+    dag_id="02_python_operator_try_change_name",
     start_date=airflow.utils.dates.days_ago(14),
     schedule_interval=None,
 ) as dag:
