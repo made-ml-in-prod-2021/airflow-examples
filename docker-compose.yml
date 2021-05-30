@@ -25,7 +25,7 @@ services:
       context: images/airflow-docker
       args:
         AIRFLOW_BASE_IMAGE: *airflow_image
-    image: mikhailmar/airflow-docker
+    image: airflow-docker
     depends_on:
       - postgres
     environment: *airflow_environment
@@ -37,7 +37,7 @@ services:
       context: images/airflow-docker
       args:
         AIRFLOW_BASE_IMAGE: *airflow_image
-    image: mikhailmar/airflow-docker
+    image: airflow-docker
 
     restart: always
     depends_on:
@@ -54,7 +54,7 @@ services:
       context: images/airflow-docker
       args:
         AIRFLOW_BASE_IMAGE: *airflow_image
-    image: mikhailmar/airflow-docker
+    image: airflow-docker
 
     restart: always
     depends_on:
@@ -70,25 +70,25 @@ services:
   ml_base:
     build:
       context: images/airflow-ml-base
-    image: mikhailmar/airflow-ml-base
+    image: airflow-ml-base
     restart: "no"
 
   predict:
     build:
       context: images/airflow-predict
-    image: mikhailmar/airflow-predict
+    image: airflow-predict
     restart: "no"
 
   download:
     build:
       context: images/airflow-download
-    image: mikhailmar/airflow-download
+    image: airflow-download
     restart: "no"
 
   preprocess:
     build:
       context: images/airflow-preprocess
-    image: mikhailmar/airflow-preprocess
+    image: airflow-preprocess
     restart: "no"
 
 volumes:

@@ -19,16 +19,17 @@ with DAG(
         start_date=days_ago(5),
 ) as dag:
     download = DockerOperator(
-        image="mikhailmar/airflow-download",
+        image="airflow-download",
         command="/data/raw/{{ ds }}",
         network_mode="bridge",
         task_id="docker-airflow-download",
         do_xcom_push=False,
+        # !!! HOST folder(NOT IN CONTAINER) replace with yours !!!
         volumes=["/Users/mikhail.maryufich/PycharmProjects/airflow_examples/data:/data"]
     )
 
     preprocess = DockerOperator(
-        image="mikhailmar/airflow-preprocess",
+        image="airflow-preprocess",
         command="--input-dir /data/raw/{{ ds }} --output-dir /data/processed/{{ ds }}",
         task_id="docker-airflow-preprocess",
         do_xcom_push=False,
@@ -36,7 +37,7 @@ with DAG(
     )
 
     predict = DockerOperator(
-        image="mikhailmar/airflow-predict",
+        image="airflow-predict",
         command="--input-dir /data/processed/{{ ds }} --output-dir /data/predicted/{{ ds }}",
         task_id="docker-airflow-predict",
         do_xcom_push=False,

@@ -1,4 +1,4 @@
-FROM mikhailmar/airflow-ml-base:latest
+FROM airflow-ml-base:latest
 
 COPY predict.py /predict.py
 
