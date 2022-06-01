@@ -4,6 +4,7 @@ from datetime import timedelta
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.utils.dates import days_ago
+from docker.types import Mount
 
 default_args = {
     "owner": "airflow",
@@ -24,16 +25,18 @@ with DAG(
         network_mode="bridge",
         task_id="docker-airflow-download",
         do_xcom_push=False,
+        mount_tmp_dir=False,
         # !!! HOST folder(NOT IN CONTAINER) replace with yours !!!
-        volumes=["/Users/mikhail.maryufich/PycharmProjects/airflow_examples/data:/data"]
+        mounts=[Mount(source="/Users/mikhailmar/IdeaProjects/airflow-examples/data/", target="/data", type='bind')]
     )
 
     preprocess = DockerOperator(
         image="airflow-preprocess",
-        command="--input-dir /data/raw/{{ ds }} --output-dir /data/processed/{{ ds }}",
+        command="--input-dir /data/raw/{{ ds }} --output-dir /data/processed/{{ ds }}2",
         task_id="docker-airflow-preprocess",
         do_xcom_push=False,
-        volumes=["/Users/mikhail.maryufich/PycharmProjects/airflow_examples/data:/data"]
+        mount_tmp_dir=False,
+        mounts=[Mount(source="/Users/mikhailmar/IdeaProjects/airflow-examples/data/", target="/data", type='bind')]
     )
 
     predict = DockerOperator(
@@ -41,7 +44,8 @@ with DAG(
         command="--input-dir /data/processed/{{ ds }} --output-dir /data/predicted/{{ ds }}",
         task_id="docker-airflow-predict",
         do_xcom_push=False,
-        volumes=["/Users/mikhail.maryufich/PycharmProjects/airflow_examples/data:/data"]
+        mount_tmp_dir=False,
+        mounts=[Mount(source="/Users/mikhailmar/IdeaProjects/airflow-examples/data/", target="/data", type='bind')]
     )
 
     download >> preprocess >> predict

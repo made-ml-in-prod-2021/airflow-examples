@@ -11,7 +11,7 @@ x-environment: &airflow_environment
   - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}
 
 
-x-airflow-image: &airflow_image apache/airflow:2.0.0-python3.6
+x-airflow-image: &airflow_image apache/airflow:2.3.0-python3.8
 # ====================================== /AIRFLOW ENVIRONMENT VARIABLES ======================================
 services:
   postgres:
@@ -87,11 +87,15 @@ services:
     image: airflow-download
     restart: "no"
 
+
   preprocess:
     build:
       context: images/airflow-preprocess
     image: airflow-preprocess
     restart: "no"
 
+
 volumes:
   logs:
+
+
